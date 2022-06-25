@@ -10,7 +10,6 @@ import {
     moveMouseRight,
     moveMouseUp
 } from "../domain/mouseNavigation.js";
-import { webSocket } from "./index.js";
 import {
     drawCircle,
     drawRectangle,
@@ -27,7 +26,7 @@ export const WebSocketController = async (message, WebSocket) => {
 
     switch (splitedMessage[0]) {
         case WebSocketNavigationEvents.MousePosition:
-            webSocket.send(`mouse_position ${x},${y}`);
+            WebSocket._write(`mouse_position ${x},${y}`);
             break;
         case WebSocketNavigationEvents.MouseDown:
             moveMouseDown(robot, x, y, Number(splitedMessage[1]));
@@ -56,7 +55,7 @@ export const WebSocketController = async (message, WebSocket) => {
             let screenInPngBase64 = await printScreen(robot, Jimp, x - size/2, y - size/2, size);
             screenInPngBase64 = screenInPngBase64.replace('data:image/png;base64,', '');
 
-            WebSocket.send(`${WebSocketPrintScreenEvents.PrintScreen} ${screenInPngBase64}\0`);
+            WebSocket._write(`${WebSocketPrintScreenEvents.PrintScreen} ${screenInPngBase64}\0`);
             break;
         default:
             break;

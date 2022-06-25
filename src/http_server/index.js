@@ -1,26 +1,6 @@
 import * as path from 'path';
 import * as http from 'http';
-import { WebSocketServer } from 'ws';
-import { WebSocketController } from "./WebSocketController.js";
 import fs from 'node:fs/promises';
-
-const PORT = process.env.PORT || 8080;
-
-const server = new WebSocketServer({ port: PORT });
-
-export let webSocket = null;
-
-server.on('connection', ws => {
-    console.log('Success Connection!');
-
-    webSocket = ws;
-
-    ws.on('message', async message => {
-        console.log(message.toString());
-
-        await WebSocketController(message.toString(), ws);
-    });
-});
 
 export const httpServer = http.createServer(async (req, res) => {
     const __dirname = path.resolve(path.dirname(''));
