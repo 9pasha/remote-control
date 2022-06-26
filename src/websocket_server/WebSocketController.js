@@ -51,7 +51,7 @@ export const WebSocketController = async (message, WebSocket) => {
             break;
         case WebSocketPrintScreenEvents.PrintScreen:
             const size = 200;
-            console.log('X =', x - size/2, ' Y =', y - size/2)
+
             let screenInPngBase64 = await printScreen(robot, Jimp, x - size/2, y - size/2, size);
             screenInPngBase64 = screenInPngBase64.replace('data:image/png;base64,', '');
 

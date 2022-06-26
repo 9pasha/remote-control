@@ -5,8 +5,6 @@ export const printScreen = async (robot, imageConverter, currentX, currentY, siz
         return new Promise(function (resolve, reject) {
             new imageConverter({data: imageBuffer, width: size, height: size}, async (err, image) => {
                 const result = await image.getBase64Async(imageConverter.MIME_PNG);
-                // let buff = new Buffer(image);
-                // let base64data = buff.toString('base64');
 
                 resolve(result);
             });

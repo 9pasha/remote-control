@@ -1,27 +1,13 @@
-import {createWebSocketStream, WebSocketServer} from "ws";
-import {WebSocketController} from "./WebSocketController.js";
+export const startWebSocketServer = (port, WebSocketServer, createWebSocketStream, WebSocketController) => {
+    const server = new WebSocketServer({ port });
 
-const PORT = process.env.WEBSOCKET_PORT || 8080;
+    server.on('connection', ws => {
+        console.log('Success Connection!');
 
-const server = new WebSocketServer({ port: PORT });
+        const duplex = createWebSocketStream(ws, { encoding: 'utf8' });
 
-server.on('connection', ws => {
-    console.log('Success Connection!');
-
-    const duplex = createWebSocketStream(ws, { encoding: 'utf8' });
-
-    // duplex.pipe(process.stdout);
-    // process.stdin.pipe(duplex);
-
-    duplex.on('data', async chunk => {
-        await WebSocketController(chunk, duplex);
-    })
-
-    // webSocket = ws;
-    //
-    // ws.on('message', async message => {
-    //     console.log(message.toString());
-    //
-    //     await WebSocketController(message.toString(), ws);
-    // });
-});
+        duplex.on('data', async chunk => {
+            await WebSocketController(chunk, duplex);
+        })
+    });
+};
