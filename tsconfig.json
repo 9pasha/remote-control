@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": true,
+    "ignore": ["(?:^|/)node_modules/"]
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

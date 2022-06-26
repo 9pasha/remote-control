@@ -1,4 +1,12 @@
-export const printScreen = async (robot, imageConverter, currentX, currentY, size) => {
+import {IRobot} from "../types/IRobot";
+import {IConverter} from "../types/IConverter";
+
+export const printScreen = async (
+    robot: IRobot,
+    imageConverter: IConverter,
+    currentX: number,
+    currentY: number,
+    size: number): Promise<any> => {
     try {
         const imageBuffer = robot.screen.capture(currentX, currentY, size, size).image;
 

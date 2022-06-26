@@ -17,8 +17,10 @@ import {
 } from "../domain/drawFigures.js";
 import { printScreen } from "../domain/printScreen.js";
 import Jimp from "jimp";
+import {ICreateWebSocketStream} from "../types/IWebSocket";
 
-export const WebSocketController = async (message, WebSocket) => {
+export const WebSocketController =
+    async (message: string, WebSocketStream: ICreateWebSocketStream): Promise<any> => {
     const splitedMessage = message.split(' ');
     let { x, y } = getMousePosition(robot);
 
@@ -26,7 +28,7 @@ export const WebSocketController = async (message, WebSocket) => {
 
     switch (splitedMessage[0]) {
         case WebSocketNavigationEvents.MousePosition:
-            WebSocket._write(`mouse_position ${x},${y}`);
+            WebSocketStream._write(`mouse_position ${x},${y}`);
             break;
         case WebSocketNavigationEvents.MouseDown:
             moveMouseDown(robot, x, y, Number(splitedMessage[1]));
@@ -55,7 +57,7 @@ export const WebSocketController = async (message, WebSocket) => {
             let screenInPngBase64 = await printScreen(robot, Jimp, x - size/2, y - size/2, size);
             screenInPngBase64 = screenInPngBase64.replace('data:image/png;base64,', '');
 
-            WebSocket._write(`${WebSocketPrintScreenEvents.PrintScreen} ${screenInPngBase64}\0`);
+            WebSocketStream._write(`${WebSocketPrintScreenEvents.PrintScreen} ${screenInPngBase64}\0`);
             break;
         default:
             break;
